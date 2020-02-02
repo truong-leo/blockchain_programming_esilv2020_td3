@@ -129,7 +129,7 @@ def refreshDataCandles(pair = 'BTCUSB', duration = '5m'):
             c.execute("SELECT COUNT(*) FROM " + table_name)
             res = c.fetchone()
             id2 = res[0] + 1
-            print("id : " + str(id2))
+            print("Creating ID : " + str(id2))
 
             c.execute("INSERT INTO " + table_name + " VALUES ('" + str(id2) + "','" + str(opendate) + "','" + str(high) + "','" + str(low) + "','" + str(open) + "','" + str(close) + "','" + str(volume) + "')")
 
@@ -138,29 +138,27 @@ def refreshDataCandles(pair = 'BTCUSB', duration = '5m'):
 
             how_many_new_data -= 1
 
-            # region writing in our SQLite file named : "last_checks" (id, exchange, trading_pair, duration, table_name, last_check, startdate, last_id)
+        # region writing in our SQLite file named : "last_checks" (id, exchange, trading_pair, duration, table_name, last_check, startdate, last_id)
 
-            conn = sqlite3.connect('data.db')
-            c = conn.cursor()
+        conn = sqlite3.connect('data.db')
+        c = conn.cursor()
 
-            c.execute("SELECT COUNT(*) FROM last_checks")
-            id = (c.fetchone())[0] + 1
-            exchange = 'coinbase'
-            trading_pair = pair
-            duration = duration
-            last_check = 'last_check?'
-            start_date = 'start_date?'
-            last_id = id - 1
+        c.execute("SELECT COUNT(*) FROM last_checks")
+        id = (c.fetchone())[0] + 1
+        exchange = 'coinbase'
+        trading_pair = pair
+        duration = duration
+        c.execute("SELECT start_date FROM last_checks WHERE (table_name = '" + table_name + "' AND last_id = 0)")
+        start_date = c.fetchone()[0]
+        last_check = data_json[0][0]
+        last_id = id - 1
 
-            c.execute("INSERT INTO last_checks VALUES ('" + str(
-                id) + "','" + exchange + "','" + trading_pair + "','" + duration + "','" + table_name + "','" + last_check + "','" + start_date + "','" + str(
-                last_id) + "')")
+        c.execute("INSERT INTO last_checks VALUES ('" + str(id) + "','" + exchange + "','" + trading_pair + "','" + duration + "','" + table_name + "','" + last_check + "','" + start_date + "','" + str(last_id) + "')")
 
-            conn.commit()
-            conn.close
+        conn.commit()
+        conn.close
 
-            # endregion
-
+        # endregion
 
     else:
         print("Pas de nouvelles données à rajouter")
@@ -203,7 +201,7 @@ def getLast300Candles(pair = 'BTCUSB', duration = '5m'):
         c.execute("SELECT COUNT(*) FROM " + table_name)
         res = c.fetchone()
         id2 = res[0] + 1
-        print("id : " + str(id2))
+        print("Creating ID : " + str(id2))
 
         c.execute("INSERT INTO " + table_name + " VALUES ('" + str(id2) + "','" + str(opendate) + "','" + str(high) + "','" + str(low) + "','" + str(open) + "','" + str(close) + "','" + str(volume) + "')")
 
@@ -222,13 +220,12 @@ def getLast300Candles(pair = 'BTCUSB', duration = '5m'):
     exchange = 'coinbase'
     trading_pair = pair
     duration = duration
-    last_check = 'last_check?'
-    start_date = 'start_date?'
-    last_id = id - 1
+    last_check = data_json[0][0]
+    start_date = data_json[299][0]
+    last_id = 0
 
     c.execute("INSERT INTO last_checks VALUES ('" + str(
-        id) + "','" + exchange + "','" + trading_pair + "','" + duration + "','" + table_name + "','" + last_check + "','" + start_date + "','" + str(
-        last_id) + "')")
+        id) + "','" + exchange + "','" + trading_pair + "','" + duration + "','" + table_name + "','" + str(last_check) + "','" + str(start_date) + "','" + str(last_id) + "')")
 
     conn.commit()
     conn.close
