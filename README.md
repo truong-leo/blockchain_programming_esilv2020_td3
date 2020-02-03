@@ -10,3 +10,5 @@ Un menu est proposé à l'utilisateur :
 0 - Exit
 
 Il lui suffit de saisir le chiffre de l'action qu'il souhaite réaliser puis d'appuyer sur ENTREE pour que celle-ci s'execute.
+
+Le fichier "data.db" se crée automatiquement au lancement des fonctions le nécéssitant, les tableaux SQLite sont stockés au sein de ce fichier. L'utilisateur est ainsi libre de récupérer seulement les données qui l'intéréssent.
