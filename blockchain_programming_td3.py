@@ -2,7 +2,7 @@ import requests
 import json
 import sqlite3
 import os
-
+import datetime
 
 def pause():
     programPause = input("Press the <ENTER> key to continue...")
@@ -11,30 +11,31 @@ def pause():
 
 def getAvailableCryptocurrencies():
     products = requests.get('https://api.pro.coinbase.com/products')
-
-    print(products.status_code)
-
     products_json = json.loads(products.text)
-
     available_cryptocurrencies = 40 * [0]
 
-    print(available_cryptocurrencies[39])
-    print(len(available_cryptocurrencies))
     i = 0
-    deja_present = True
+    deja_present = False
+
+    print("Voici la liste des cryptomonnaies échangeables :")
 
     for e in products_json:
 
-        for j in range(0, 40):
-            if (e['base_currency'] != available_cryptocurrencies[i]):
-                deja_present = False
+        j = 0
+        while j < 40:
+
+            if (e['base_currency'] == available_cryptocurrencies[j]):
+                deja_present = True
+                break
+            j += 1
 
         if (deja_present == False):
             available_cryptocurrencies[i] = e['base_currency']
             print(e['base_currency'])
             i = i + 1
 
-        deja_present = True
+        deja_present = False
+    #print(available_cryptocurrencies)
 
 def getDepth(direction='ask', pair = 'BTCUSD'):
     adress = 'https://api.pro.coinbase.com/products/' + pair[0:3] + '-' + pair[3:6] + '/book'
@@ -66,65 +67,105 @@ def getOrderBook(direction='askorbid', pair = 'BTCUSD'):
 
     print('\n')
 
-def getAdress(pair = 'BTCUSD', duration = '5m'):
+def getAdress(pair = 'BTCUSD', duration = '5m', start = '2020-02-03T17:07:34', end = '2020-02-03T17:07:34'):
     numberofminutes = int(duration[0:(len(duration) - 1)])
     granularity = numberofminutes * 60
 
     if (len(str(pair)) == 6):
-        adress = 'https://api.pro.coinbase.com/products/' + pair[0:3] + '-' + pair[3:6] + '/candles?granularity=' + str(
+        adress = 'https://api.pro.coinbase.com/products/' + pair[0:3] + '-' + pair[3:6] + '/candles/?start=' + start + 'Z&end=' + end + 'Z&granularity=' + str(
             granularity)
     if (pair == 'ATOMUSD'):
-        adress = 'https://api.pro.coinbase.com/products/' + 'ATOM' + '-' + 'USD' + '/candles?granularity=' + str(
+        adress = 'https://api.pro.coinbase.com/products/' + 'ATOM' + '-' + 'USD' + '/candles/?start=' + start + 'Z&end=' + end + 'Z&granularity=' + str(
             granularity)
     if (pair == 'BATUSDC'):
-        adress = 'https://api.pro.coinbase.com/products/' + 'BAT' + '-' + 'USDC' + '/candles?granularity=' + str(
+        adress = 'https://api.pro.coinbase.com/products/' + 'BAT' + '-' + 'USDC' + '/candles/?start=' + start + 'Z&end=' + end + 'Z&granularity=' + str(
             granularity)
     if (pair == 'DAIUSDC'):
-        adress = 'https://api.pro.coinbase.com/products/' + 'DAI' + '-' + 'USDC' + '/candles?granularity=' + str(
+        adress = 'https://api.pro.coinbase.com/products/' + 'DAI' + '-' + 'USDC' + '/candles/?start=' + start + 'Z&end=' + end + 'Z&granularity=' + str(
             granularity)
     if (pair == 'MANAUSDC'):
-        adress = 'https://api.pro.coinbase.com/products/' + 'MANA' + '-' + 'USDC' + '/candles?granularity=' + str(
+        adress = 'https://api.pro.coinbase.com/products/' + 'MANA' + '-' + 'USDC' + '/candles/?start=' + start + 'Z&end=' + end + 'Z&granularity=' + str(
             granularity)
     if (pair == 'ETHUSDC'):
-        adress = 'https://api.pro.coinbase.com/products/' + 'ETH' + '-' + 'USDC' + '/candles?granularity=' + str(
+        adress = 'https://api.pro.coinbase.com/products/' + 'ETH' + '-' + 'USDC' + '/candles/?start=' + start + 'Z&end=' + end + 'Z&granularity=' + str(
             granularity)
     if (pair == 'CVCUSDC'):
-        adress = 'https://api.pro.coinbase.com/products/' + 'CVC' + '-' + 'USDC' + '/candles?granularity=' + str(
+        adress = 'https://api.pro.coinbase.com/products/' + 'CVC' + '-' + 'USDC' + '/candles/?start=' + start + 'Z&end=' + end + 'Z&granularity=' + str(
             granularity)
     if (pair == 'BTCUSDC'):
-        adress = 'https://api.pro.coinbase.com/products/' + 'BTC' + '-' + 'USDC' + '/candles?granularity=' + str(
+        adress = 'https://api.pro.coinbase.com/products/' + 'BTC' + '-' + 'USDC' + '/candles/?start=' + start + 'Z&end=' + end + 'Z&granularity=' + str(
             granularity)
-
     if (pair == 'LINKUSD'):
-        adress = 'https://api.pro.coinbase.com/products/' + 'LINK' + '-' + 'USD' + '/candles?granularity=' + str(
+        adress = 'https://api.pro.coinbase.com/products/' + 'LINK' + '-' + 'USD' + '/candles/?start=' + start + 'Z&end=' + end + 'Z&granularity=' + str(
             granularity)
     if (pair == 'ALGOUSD'):
-        adress = 'https://api.pro.coinbase.com/products/' + 'ALGO' + '-' + 'USD' + '/candles?granularity=' + str(
+        adress = 'https://api.pro.coinbase.com/products/' + 'ALGO' + '-' + 'USD' + '/candles/?start=' + start + 'Z&end=' + end + 'Z&granularity=' + str(
             granularity)
     if (pair == 'GNTUSDC'):
-        adress = 'https://api.pro.coinbase.com/products/' + 'GNT' + '-' + 'USDC' + '/candles?granularity=' + str(
+        adress = 'https://api.pro.coinbase.com/products/' + 'GNT' + '-' + 'USDC' + '/candles/?start=' + start + 'Z&end=' + end + 'Z&granularity=' + str(
             granularity)
     if (pair == 'ZECUSDC'):
-        adress = 'https://api.pro.coinbase.com/products/' + 'ZEC' + '-' + 'USDC' + '/candles?granularity=' + str(
+        adress = 'https://api.pro.coinbase.com/products/' + 'ZEC' + '-' + 'USDC' + '/candles/?start=' + start + 'Z&end=' + end + 'Z&granularity=' + str(
             granularity)
     if (pair == 'LOOMUSDC'):
-        adress = 'https://api.pro.coinbase.com/products/' + 'LOOM' + '-' + 'USDC' + '/candles?granularity=' + str(
+        adress = 'https://api.pro.coinbase.com/products/' + 'LOOM' + '-' + 'USDC' + '/candles/?start=' + start + 'Z&end=' + end + 'Z&granularity=' + str(
             granularity)
     if (pair == 'LINKETH'):
-        adress = 'https://api.pro.coinbase.com/products/' + 'LINK' + '-' + 'ETH' + '/candles?granularity=' + str(
+        adress = 'https://api.pro.coinbase.com/products/' + 'LINK' + '-' + 'ETH' + '/candles/?start=' + start + 'Z&end=' + end + 'Z&granularity=' + str(
             granularity)
     if (pair == 'DNTUSDC'):
-        adress = 'https://api.pro.coinbase.com/products/' + 'DNT' + '-' + 'USDC' + '/candles?granularity=' + str(
+        adress = 'https://api.pro.coinbase.com/products/' + 'DNT' + '-' + 'USDC' + '/candles/?start=' + start + 'Z&end=' + end + 'Z&granularity=' + str(
             granularity)
     if (pair == 'ATOMBTC'):
-        adress = 'https://api.pro.coinbase.com/products/' + 'ATOM' + '-' + 'BTC' + '/candles?granularity=' + str(
+        adress = 'https://api.pro.coinbase.com/products/' + 'ATOM' + '-' + 'BTC' + '/candles/?start=' + start + 'Z&end=' + end + 'Z&granularity=' + str(
             granularity)
     if (pair == 'DASHUSD'):
-        adress = 'https://api.pro.coinbase.com/products/' + 'DASH' + '-' + 'USD' + '/candles?granularity=' + str(
+        adress = 'https://api.pro.coinbase.com/products/' + 'DASH' + '-' + 'USD' + '/candles/?start=' + start + 'Z&end=' + end + 'Z&granularity=' + str(
             granularity)
     if (pair == 'DASHBTC'):
-        adress = 'https://api.pro.coinbase.com/products/' + 'DASH' + '-' + 'BTC' + '/candles?granularity=' + str(
+        adress = 'https://api.pro.coinbase.com/products/' + 'DASH' + '-' + 'BTC' + '/candles/?start=' + start + 'Z&end=' + end + 'Z&granularity=' + str(
             granularity)
+
+    return adress
+
+def getAdressTrades(pair = 'BTCUSD'):
+
+    if (len(str(pair)) == 6):
+        adress = 'https://api.pro.coinbase.com/products/' + pair[0:3] + '-' + pair[3:6] + '/trades'
+    if (pair == 'ATOMUSD'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'ATOM' + '-' + 'USD' + '/trades'
+    if (pair == 'BATUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'BAT' + '-' + 'USDC' + '/trades'
+    if (pair == 'DAIUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'DAI' + '-' + 'USDC' + '/trades'
+    if (pair == 'MANAUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'MANA' + '-' + 'USDC' + '/trades'
+    if (pair == 'ETHUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'ETH' + '-' + 'USDC' + '/trades'
+    if (pair == 'CVCUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'CVC' + '-' + 'USDC' + '/trades'
+    if (pair == 'BTCUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'BTC' + '-' + 'USDC' + '/trades'
+    if (pair == 'LINKUSD'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'LINK' + '-' + 'USD' + '/trades'
+    if (pair == 'ALGOUSD'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'ALGO' + '-' + 'USD' + '/trades'
+    if (pair == 'GNTUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'GNT' + '-' + 'USDC' + '/trades'
+    if (pair == 'ZECUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'ZEC' + '-' + 'USDC' + '/trades'
+    if (pair == 'LOOMUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'LOOM' + '-' + 'USDC' + '/trades'
+    if (pair == 'LINKETH'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'LINK' + '-' + 'ETH' + '/trades'
+    if (pair == 'DNTUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'DNT' + '-' + 'USDC' + '/trades'
+    if (pair == 'ATOMBTC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'ATOM' + '-' + 'BTC' + '/trades'
+    if (pair == 'DASHUSD'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'DASH' + '-' + 'USD' + '/trades'
+    if (pair == 'DASHBTC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'DASH' + '-' + 'BTC' + '/trades'
 
     return adress
 
@@ -133,9 +174,12 @@ def refreshDataCandles(pair = 'BTCUSD', duration = '5m'):
     #numberofminutes = int(duration[0:(len(duration) - 1)])
     #granularity = numberofminutes * 60
 
-    adress = getAdress(pair, duration)
+    actual_date = datetime.datetime.now().isoformat()
+    start = datetime.datetime.now() - datetime.timedelta(days=1, hours=1, minutes=0, seconds=0)
+    end = start + datetime.timedelta(days=1, hours=1, minutes=0, seconds=0)
 
-    #adress = 'https://api.pro.coinbase.com/products/' + pair[0:3] + '-' + pair[3:6] + '/candles?granularity=' + str(granularity)
+    adress = getAdress(pair, duration, start.isoformat()[0:19], end.isoformat()[0:19])
+
     data = requests.get(adress)
     data_json = json.loads(data.text)
 
@@ -156,7 +200,6 @@ def refreshDataCandles(pair = 'BTCUSD', duration = '5m'):
     print("Premiere nouvelle date : " + str(data_json[0][0]))
 
     if(str(last_date) != str(data_json[0][0])):
-
 
         j = 0
         how_many_new_data = 0
@@ -218,7 +261,7 @@ def refreshDataCandles(pair = 'BTCUSD', duration = '5m'):
         start_date = c.fetchone()[0]
         last_check = data_json[0][0]
         c.execute("SELECT MAX(Id) FROM last_checks WHERE (table_name = '" + table_name + "')")
-        last_id = (c.fetchone())[0] + 1
+        last_id = (c.fetchone())[0]
 
         c.execute("INSERT INTO last_checks VALUES ('" + str(id) + "','" + str(exchange) + "','" + str(trading_pair) + "','" + str(duration) + "','" + str(table_name) + "','" + str(last_check) + "','" + str(start_date) + "','" + str(last_id) + "')")
 
@@ -230,53 +273,72 @@ def refreshDataCandles(pair = 'BTCUSD', duration = '5m'):
     else:
         print("Pas de nouvelles données à rajouter")
 
-def getLast300Candles(pair = 'BTCUSD', duration = '5m'):
+def getLast300Candles(pair = 'BTCUSD', duration = '5m', profondeur = 1):
 
-    adress = getAdress(pair, duration)
+    actual_date = datetime.datetime.now().isoformat()
+    start = datetime.datetime.now() - profondeur * datetime.timedelta(days=1, hours = 1, minutes = 0, seconds = 0)
+    end = start + datetime.timedelta(days=1, hours = 1, minutes = 0, seconds = 0)
 
-    data = requests.get(adress)
-    data_json = json.loads(data.text)
+    for j in range(profondeur):
 
-    for i in range(300):
+        adress = getAdress(pair, duration, start.isoformat()[0:19], end.isoformat()[0:19])
 
-        date = data_json[299-i][0]
-        low = (data_json[299-i])[1]
-        high = (data_json[299-i])[2]
-        open = (data_json[299-i])[3]
-        close = (data_json[299-i])[4]
-        volume = (data_json[299-i])[5]
-        opendate = date
+        data = requests.get(adress)
+        data_json = json.loads(data.text)
+        nb_data = 0
+        nb_data = len(data_json)
 
-        #SQL PART
+        for i in range(nb_data):
 
-        conn = sqlite3.connect('data.db')
-        c = conn.cursor()
+            date = data_json[nb_data-1-i][0]
+            low = (data_json[nb_data-1-i])[1]
+            high = (data_json[nb_data-1-i])[2]
+            open = (data_json[nb_data-1-i])[3]
+            close = (data_json[nb_data-1-i])[4]
+            volume = (data_json[nb_data-1-i])[5]
+            opendate = date
 
-        #region writing our data in "exchangeName_pair+_duration" (id, date, high, low, open, close, volume)
+            #SQL PART
 
-        table_name = str("coinbase_" + pair + "_" + duration)
+            conn = sqlite3.connect('data.db')
+            c = conn.cursor()
 
-        if(DoesTheTableAlreadyExist((table_name)) == False):
-            print("Creation of a new table")
-            tableCreationStatement = """CREATE  TABLE  """ + table_name + """(Id INTEGER  PRIMARY  KEY, date INT, high  REAL, low REAL, open  REAL, close REAL, volume  REAL)"""
-            c.execute(tableCreationStatement)
+            #region writing our data in "exchangeName_pair+_duration" (id, date, high, low, open, close, volume)
 
-        c.execute("SELECT COUNT(*) FROM " + table_name)
-        res = c.fetchone()
-        id2 = res[0] + 1
-        print("Creating ID : " + str(id2))
+            table_name = str("coinbase_" + pair + "_" + duration)
 
-        c.execute("INSERT INTO " + table_name + " VALUES ('" + str(id2) + "','" + str(opendate) + "','" + str(high) + "','" + str(low) + "','" + str(open) + "','" + str(close) + "','" + str(volume) + "')")
+            if(DoesTheTableAlreadyExist((table_name)) == False):
+                print("Creation of a new table")
+                tableCreationStatement = """CREATE  TABLE  """ + table_name + """(Id INTEGER  PRIMARY  KEY, date INT, high  REAL, low REAL, open  REAL, close REAL, volume  REAL)"""
+                c.execute(tableCreationStatement)
 
-        conn.commit()
-        conn.close
+            c.execute("SELECT COUNT(*) FROM " + table_name)
+            res = c.fetchone()
+            id2 = res[0] + 1
+            print("Creating ID : " + str(id2))
 
-        #endregion
+            c.execute("INSERT INTO " + table_name + " VALUES ('" + str(id2) + "','" + str(opendate) + "','" + str(high) + "','" + str(low) + "','" + str(open) + "','" + str(close) + "','" + str(volume) + "')")
+
+            conn.commit()
+            conn.close
+
+            #endregion
+
+        start = end
+        end = start + datetime.timedelta(days=1, hours = 1, minutes = 0, seconds = 0)
 
     # region writing in our SQLite file named : "last_checks" (id, exchange, trading_pair, duration, table_name, last_check, startdate, last_id)
 
     conn = sqlite3.connect('data.db')
     c = conn.cursor()
+
+    start = datetime.datetime.now() - profondeur * datetime.timedelta(days=1, hours=1, minutes=0, seconds=0)
+    end = start + datetime.timedelta(days=1, hours=1, minutes=0, seconds=0)
+    adress = getAdress(pair, duration, start.isoformat()[0:19], end.isoformat()[0:19])
+
+    data = requests.get(adress)
+    data_json = json.loads(data.text)
+    nb_data = len(data_json)
 
     c.execute("SELECT COUNT(*) FROM last_checks")
     id = (c.fetchone())[0] + 1
@@ -284,16 +346,18 @@ def getLast300Candles(pair = 'BTCUSD', duration = '5m'):
     trading_pair = pair
     duration = duration
     last_check = data_json[0][0]
-    start_date = data_json[299][0]
+    start_date = data_json[nb_data-1][0]
     last_id = 0
 
     c.execute("INSERT INTO last_checks VALUES ('" + str(
-        id) + "','" + exchange + "','" + trading_pair + "','" + duration + "','" + table_name + "','" + str(last_check) + "','" + str(start_date) + "','" + str(last_id) + "')")
+        id) + "','" + exchange + "','" + trading_pair + "','" + duration + "','" + table_name + "','" + str(
+        last_check) + "','" + str(start_date) + "','" + str(last_id) + "')")
 
     conn.commit()
     conn.close
 
     # endregion
+
 
     print('\n')
 
@@ -324,6 +388,59 @@ def DoesTheTableAlreadyExist(nameofthetable):
         #print("table already exist")
         return True
 
+def refreshData(pair = 'BTCUSD'):
+
+    adress = getAdressTrades(pair)
+
+    data = requests.get(adress)
+    data_json = json.loads(data.text)
+    nb_data = 0
+    nb_data = len(data_json)
+
+    conn = sqlite3.connect('data.db')
+    c = conn.cursor()
+
+    table_name = str('coinbase_' + pair)
+    if (DoesTheTableAlreadyExist((table_name)) == True):
+        c.execute("DROP TABLE " + table_name)
+
+    print("Creation of a new table")
+    tableCreationStatement = """CREATE  TABLE  """ + table_name + """(Id INTEGER PRIMARY KEY, uuid TEXT, traded_btc REAL,  price REAL, created_at_int INT, side TEXT)"""
+    c.execute(tableCreationStatement)
+
+    conn.commit()
+    conn.close
+
+    for i in range(nb_data):
+
+        uuid = str((data_json[nb_data - 1 - i])['trade_id'])
+        traded_btc = (data_json[nb_data - 1 - i])['size']
+        price = (data_json[nb_data - 1 - i])['price']
+        created_at_int = (data_json[nb_data - 1 - i])['time']
+        side = (data_json[nb_data - 1 - i])['side']
+
+        # SQL PART
+
+        conn = sqlite3.connect('data.db')
+        c = conn.cursor()
+
+        # region writing our data in "exchangeName_pair" (id, uuid, traded_btc, price, created_at_int, side)
+
+        c.execute("SELECT COUNT(*) FROM " + table_name)
+        res = c.fetchone()
+        id2 = res[0] + 1
+        print("Creating ID : " + str(id2))
+
+        c.execute("INSERT INTO " + table_name + " VALUES ('" + str(id2) + "','" + str(uuid) + "','" + str(
+            traded_btc) + "','" + str(price) + "','" + str(created_at_int) + "','" + str(side) + "')")
+
+        conn.commit()
+        conn.close
+
+        # endregion
+
+    print('\n')
+
 # ====================================== MENU ======================================
 def menu():
     os.system("cls")
@@ -347,45 +464,68 @@ def menu():
 
         elif(choix == '2'):
             os.system("cls")
-            print("Veuillez saisir la pair que vous souhaitez (ex : BTCUSD)")
-            select_pair = input()
-            print("Veuillez saisir ce que vous souhaitez (ex : bid)")
-            select_direction = input()
-            if(select_direction == str('ask') or select_direction == str('bid')):
-                getDepth(select_direction, select_pair)
-            else:
-                print("Données rentrées incorrecte")
+            try:
+                print("Veuillez saisir la pair que vous souhaitez (ex : BTCUSD)")
+                select_pair = input()
+                print("Veuillez saisir ce que vous souhaitez (ex : bid)")
+                select_direction = input()
+                if(select_direction == str('ask') or select_direction == str('bid')):
+                    getDepth(select_direction, select_pair)
+                else:
+                    print("Données rentrées invalides")
+            except (RuntimeError, TypeError, NameError):
+                print("Donneés rentrées invalides")
 
         elif(choix == '3'):
             os.system("cls")
-            print("Veuillez saisir la pair que vous souhaitez (ex : BTCUSD)")
-            select_pair = input()
-            print("Veuillez saisir ce que vous souhaitez (ex : bid)")
-            select_direction = input()
-            if (select_direction == str('ask') or select_direction == str('bid')):
-                getOrderBook(select_direction, select_pair)
-            else:
-                print("Données rentrées incorrecte")
+            try:
+                print("Veuillez saisir la pair que vous souhaitez (ex : BTCUSD)")
+                select_pair = input()
+                print("Veuillez saisir ce que vous souhaitez (ex : bid)")
+                select_direction = input()
+                if (select_direction == str('ask') or select_direction == str('bid')):
+                    getOrderBook(select_direction, select_pair)
+                else:
+                    print("Données rentrées invalides")
+            except (RuntimeError, TypeError, NameError):
+                print("Donneés rentrées invalides")
 
         elif(choix == '4'):
             os.system("cls")
-            print("Veuillez saisir la pair que vous souhaitez (ex : BTCUSD)")
-            select_pair = input()
-            print("Veuillez saisir la 'duration' souhaitez (choix : 5m / 15m / 60m / 360m / 1440m)")
-            select_duration = input()
-            if (select_duration != str('1m') or select_duration != str('5m') or select_duration != str('5m') or select_duration != str('15m') or select_duration != str('60m') or select_duration != str('360m') or select_duration != str('1440m')):
-                #verifier qu'une table n'existe pas déjà
-                table_name = str("coinbase_" + select_pair + "_" + select_duration)
-                if(DoesTheTableAlreadyExist(table_name) == False):
-                    getLast300Candles(select_pair, select_duration)
-                else:
-                    refreshDataCandles(select_pair, select_duration)
+            try:
+                print("Veuillez saisir la pair que vous souhaitez (ex : BTCUSD)")
+                select_pair = input()
+                print("Veuillez saisir la 'duration' souhaitez (choix : 5m / 15m / 60m / 360m / 1440m)")
+                select_duration = input()
+                if (select_duration == str('1m') or select_duration == str('5m') or select_duration == str('5m') or select_duration == str('15m') or select_duration == str('60m') or select_duration == str('360m') or select_duration == str('1440m')):
+                    #verifier qu'une table n'existe pas déjà
+                    table_name = str("coinbase_" + select_pair + "_" + select_duration)
+                    if(DoesTheTableAlreadyExist(table_name) == False):
+                        print("Veuillez saisir la profondeur de l'historique des candles que vous souhaitez (ex : 10, alors il y aura un historique d'une taille maximum de 3000 candles). \n"
+                              + "Si vous souhaitez un grand historique, le programme mettra un bon moment pour récupérer toutes les données. \n"
+                              + "Pour tester et ne pas devoir attendre trop longtemps, un chiffre entre 1 et 10 est conseillé. +\n"
+                              + "Note : il faut saisir un nombre entier > 0.")
+                        profondeur = input()
+                        if(profondeur == 0):
+                            print("Veuillez saisir un nombre entier supérieur à 0.")
+                        getLast300Candles(select_pair, select_duration)
+                    else:
+                        refreshDataCandles(select_pair, select_duration)
 
-            else:
-                print("Données rentrées incorrecte")
+                else:
+                    print("Données rentrées invalides")
+            except (RuntimeError, TypeError, NameError):
+                print("Donneés rentrées invalides")
 
         elif(choix == '5'):
             os.system("cls")
+            try:
+                print("Veuillez saisir la pair que vous souhaitez (ex : BTCUSD)")
+                select_pair = input()
+                refreshData(select_pair)
+
+            except (RuntimeError, TypeError, NameError):
+                print("Donneés rentrées invalides")
 
         pause()
         os.system("cls")
@@ -404,3 +544,5 @@ def main():
     menu()
 
 main()
+
+
