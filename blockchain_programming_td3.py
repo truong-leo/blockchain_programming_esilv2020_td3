@@ -37,8 +37,49 @@ def getAvailableCryptocurrencies():
         deja_present = False
     #print(available_cryptocurrencies)
 
+def getAdressBook(pair = 'BTCUSD'):
+
+    if (len(str(pair)) == 6):
+        adress = 'https://api.pro.coinbase.com/products/' + pair[0:3] + '-' + pair[3:6] + '/book'
+    if (pair == 'ATOMUSD'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'ATOM' + '-' + 'USD' + '/book'
+    if (pair == 'BATUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'BAT' + '-' + 'USDC' + '/book'
+    if (pair == 'DAIUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'DAI' + '-' + 'USDC' + '/book'
+    if (pair == 'MANAUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'MANA' + '-' + 'USDC' + '/book'
+    if (pair == 'ETHUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'ETH' + '-' + 'USDC' + '/book'
+    if (pair == 'CVCUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'CVC' + '-' + 'USDC' + '/book'
+    if (pair == 'BTCUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'BTC' + '-' + 'USDC' + '/book'
+    if (pair == 'LINKUSD'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'LINK' + '-' + 'USD' + '/book'
+    if (pair == 'ALGOUSD'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'ALGO' + '-' + 'USD' + '/book'
+    if (pair == 'GNTUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'GNT' + '-' + 'USDC' + '/book'
+    if (pair == 'ZECUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'ZEC' + '-' + 'USDC' + '/book'
+    if (pair == 'LOOMUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'LOOM' + '-' + 'USDC' + '/book'
+    if (pair == 'LINKETH'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'LINK' + '-' + 'ETH' + '/book'
+    if (pair == 'DNTUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'DNT' + '-' + 'USDC' + '/book'
+    if (pair == 'ATOMBTC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'ATOM' + '-' + 'BTC' + '/book'
+    if (pair == 'DASHUSD'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'DASH' + '-' + 'USD' + '/book'
+    if (pair == 'DASHBTC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'DASH' + '-' + 'BTC' + '/book'
+
+    return adress
+
 def getDepth(direction='ask', pair = 'BTCUSD'):
-    adress = 'https://api.pro.coinbase.com/products/' + pair[0:3] + '-' + pair[3:6] + '/book'
+    adress = getAdressBook(pair)
 
     priceof = direction
     direction = direction + 's'
@@ -50,8 +91,50 @@ def getDepth(direction='ask', pair = 'BTCUSD'):
 
     print('\n')
 
+def getAdressOrderBook(pair = 'BTCUSD'):
+
+    if (len(str(pair)) == 6):
+        adress = 'https://api.pro.coinbase.com/products/' + pair[0:3] + '-' + pair[3:6] + '/book?level=2'
+    if (pair == 'ATOMUSD'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'ATOM' + '-' + 'USD' + '/book?level=2'
+    if (pair == 'BATUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'BAT' + '-' + 'USDC' + '/book?level=2'
+    if (pair == 'DAIUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'DAI' + '-' + 'USDC' + '/book?level=2'
+    if (pair == 'MANAUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'MANA' + '-' + 'USDC' + '/book?level=2'
+    if (pair == 'ETHUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'ETH' + '-' + 'USDC' + '/book?level=2'
+    if (pair == 'CVCUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'CVC' + '-' + 'USDC' + '/book?level=2'
+    if (pair == 'BTCUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'BTC' + '-' + 'USDC' + '/book?level=2'
+    if (pair == 'LINKUSD'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'LINK' + '-' + 'USD' + '/book?level=2'
+    if (pair == 'ALGOUSD'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'ALGO' + '-' + 'USD' + '/book?level=2'
+    if (pair == 'GNTUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'GNT' + '-' + 'USDC' + '/book?level=2'
+    if (pair == 'ZECUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'ZEC' + '-' + 'USDC' + '/book?level=2'
+    if (pair == 'LOOMUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'LOOM' + '-' + 'USDC' + '/book?level=2'
+    if (pair == 'LINKETH'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'LINK' + '-' + 'ETH' + '/book?level=2'
+    if (pair == 'DNTUSDC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'DNT' + '-' + 'USDC' + '/book?level=2'
+    if (pair == 'ATOMBTC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'ATOM' + '-' + 'BTC' + '/book?level=2'
+    if (pair == 'DASHUSD'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'DASH' + '-' + 'USD' + '/book?level=2'
+    if (pair == 'DASHBTC'):
+        adress = 'https://api.pro.coinbase.com/products/' + 'DASH' + '-' + 'BTC' + '/book?level=2'
+
+    return adress
+
 def getOrderBook(direction='askorbid', pair = 'BTCUSD'):
-    adress = 'https://api.pro.coinbase.com/products/' + pair[0:3] + '-' + pair[3:6] + '/book?level=2'
+    #adress = 'https://api.pro.coinbase.com/products/' + pair[0:3] + '-' + pair[3:6] + '/book?level=2'
+    adress = getAdressOrderBook(pair)
 
     priceof = direction
     direction = direction + 's'
@@ -60,10 +143,10 @@ def getOrderBook(direction='askorbid', pair = 'BTCUSD'):
 
     print("The first 50 values of the " + priceof + " order book are : " + "\n")
 
-    print('%7s | %12s | %10s' % ('PRICE ','SIZE   ','NUM-ORDERS'))
+    print('%10s | %12s | %10s' % ('PRICE  ','SIZE    ','NUM-ORDERS'))
     print(35 * '_')
     for e in data_json[direction]:
-        print('%7s | %12s | %5d' % (e[0],e[1],e[2]))
+        print('%10s | %12s | %5d' % (e[0],e[1],e[2]))
 
     print('\n')
 
@@ -452,7 +535,7 @@ def menu():
         print("1 - Obtenir la liste des cryptomonnaies disponibles")
         print("2 - Obtenir le Ask ou le Bid d'un asset")
         print("3 - Obtenir l'order book d'un asset")
-        print('4 - Créer ou actualiser un SQLite avec les candles d une pair spécifique')
+        print('4 - Créer ou actualiser un SQLite avec les candles d une paire spécifique')
         print('5 - Récuperer "all available trade data" et le stocker dans un SQLite')
         print('0 - Exit')
         print("\n" + "Saisir l'action que vous souhaitez réaliser.")
@@ -473,7 +556,7 @@ def menu():
                     getDepth(select_direction, select_pair)
                 else:
                     print("Données rentrées invalides")
-            except (RuntimeError, TypeError, NameError):
+            except (RuntimeError, TypeError, NameError, IOError, KeyError):
                 print("Donneés rentrées invalides")
 
         elif(choix == '3'):
@@ -487,7 +570,7 @@ def menu():
                     getOrderBook(select_direction, select_pair)
                 else:
                     print("Données rentrées invalides")
-            except (RuntimeError, TypeError, NameError):
+            except (RuntimeError, TypeError, NameError, IOError, KeyError):
                 print("Donneés rentrées invalides")
 
         elif(choix == '4'):
@@ -514,7 +597,7 @@ def menu():
 
                 else:
                     print("Données rentrées invalides")
-            except (RuntimeError, TypeError, NameError):
+            except (RuntimeError, TypeError, NameError, IOError, KeyError):
                 print("Donneés rentrées invalides")
 
         elif(choix == '5'):
@@ -524,7 +607,7 @@ def menu():
                 select_pair = input()
                 refreshData(select_pair)
 
-            except (RuntimeError, TypeError, NameError):
+            except (RuntimeError, TypeError, NameError, IOError, KeyError):
                 print("Donneés rentrées invalides")
 
         pause()
